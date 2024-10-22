@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <locale.h>
 
 #define SIZE_ASCII 256
@@ -146,11 +147,65 @@ void print_tree(node *root, int size) {
     }
 }
 
+int trie_height(node *root) {
+    int left, right;
+
+    if (root == NULL) {
+        return -1;
+    } else {
+        left = trie_height(root->left) + 1;
+        right = trie_height(root->right) + 1;
+        if (left > right) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+}
+
+char** allocate_dictionary(int columns) {
+    char** dictionary;
+
+    dictionary = malloc(sizeof(char*) * SIZE_ASCII);
+    for (int i = 0; i < SIZE_ASCII; i++) {
+        dictionary[i] = calloc(columns, sizeof(char));
+    }
+
+    return dictionary;
+}
+
+void create_dictionary(char **dictionary, node *root, char *path, int columns) {
+    char left[columns], right[columns];
+    if (root->left == NULL && root->right == NULL) {
+        strcpy(dictionary[root->item], path);
+    } else {
+        strcpy(left, path);
+        strcpy(right, path);
+
+        strcat(left, "0");
+        strcat(right, "1");
+
+        create_dictionary(dictionary, root->left, left, columns);
+        create_dictionary(dictionary, root->right, right, columns);
+    }
+}
+
+void print_dictionary(char **dictionary) {
+    printf("\n\tDictionary:\n");
+    for (int i = 0; i < SIZE_ASCII; i++) {
+        if (strlen(dictionary[i]) > 0) {
+            printf("\t%3d: %s\n", i, dictionary[i]);
+        }
+    }
+}
+
 int main() {
     unsigned char text[] = "Teste de huffman";
     unsigned int frequency_table[SIZE_ASCII];
     list list;
     node *tree;
+    int columns;
+    char **dictionary;
 
     setlocale(LC_ALL, "Portuguese");
 
@@ -165,6 +220,11 @@ int main() {
     tree = build_tree(&list);
     printf("\n\tÁrvore de huffman\n");
     print_tree(tree, 0);
+
+    columns = trie_height(tree) + 1;
+    dictionary = allocate_dictionary(columns);
+    create_dictionary(dictionary, tree, "", columns);
+    print_dictionary(dictionary);
 
     return 0;
 }
