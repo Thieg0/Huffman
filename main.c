@@ -221,14 +221,39 @@ char* encode(char **dictionary, unsigned char *text) {
     return code;
 }
 
+char* decode(unsigned char text[], node *root) {
+    int i = 0;
+    node *aux = root;
+    char temp[2];
+    char *decoded = calloc(strlen(text), sizeof(char));
+
+    while (text[i] != '\0') {
+        if (text[i] == '0') {
+            aux = aux->left;
+        } else {
+            aux = aux->right;
+        }
+
+        if (aux->left == NULL && aux->right == NULL) {
+            temp[0] = aux->item;
+            temp[1] = '\0';
+            strcat(decoded, temp);
+            aux = root;
+        }
+
+        i++;
+    }
+    return decoded;
+}
+
 int main() {
-    unsigned char text[] = "Vamos aprender programção";
+    unsigned char text[] = "Vamos aprender programação";
     unsigned int frequency_table[SIZE_ASCII];
     list list;
     node *tree;
     int columns;
     char **dictionary;
-    char *encoded;
+    char *encoded, *decoded;
 
     setlocale(LC_ALL, "Portuguese");
 
@@ -252,5 +277,8 @@ int main() {
     encoded = encode(dictionary, text);
     printf("\n\tTexto codificado: %s\n", encoded);
 
+    decoded = decode(encoded, tree);
+    printf("\n\n\tTexto decodificado: %s\n", decoded);
+    
     return 0;
 }
