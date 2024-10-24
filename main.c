@@ -199,7 +199,7 @@ void print_dictionary(char **dictionary) {
     }
 }
 
-int calculate_size_string(char **dictionary, char *text) {
+int calculate_size_string(char **dictionary, unsigned char *text) {
     int i = 0, size = 0;
     while (text[i] != '\0') {
         size = size + strlen(dictionary[text[i]]);
@@ -222,7 +222,7 @@ char* encode(char **dictionary, unsigned char *text) {
 }
 
 int main() {
-    unsigned char text[] = "Teste de huffman";
+    unsigned char text[] = "Vamos aprender programção";
     unsigned int frequency_table[SIZE_ASCII];
     list list;
     node *tree;
