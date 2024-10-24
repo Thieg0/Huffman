@@ -199,6 +199,28 @@ void print_dictionary(char **dictionary) {
     }
 }
 
+int calculate_size_string(char **dictionary, char *text) {
+    int i = 0, size = 0;
+    while (text[i] != '\0') {
+        size = size + strlen(dictionary[text[i]]);
+        i++;
+    }
+    return size + 1;
+}
+
+char* encode(char **dictionary, unsigned char *text) {
+
+    int i = 0, size = calculate_size_string(dictionary, text);
+
+    char *code = calloc(size, sizeof(char));
+
+    while (text[i] != '\0') {
+        strcat(code, dictionary[text[i]]);   
+        i++; 
+    }
+    return code;
+}
+
 int main() {
     unsigned char text[] = "Teste de huffman";
     unsigned int frequency_table[SIZE_ASCII];
@@ -206,6 +228,7 @@ int main() {
     node *tree;
     int columns;
     char **dictionary;
+    char *encoded;
 
     setlocale(LC_ALL, "Portuguese");
 
@@ -225,6 +248,9 @@ int main() {
     dictionary = allocate_dictionary(columns);
     create_dictionary(dictionary, tree, "", columns);
     print_dictionary(dictionary);
+
+    encoded = encode(dictionary, text);
+    printf("\n\tTexto codificado: %s\n", encoded);
 
     return 0;
 }
