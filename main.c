@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
+//#include <locale.h>
 
 #define SIZE_ASCII 256
 
@@ -246,39 +246,156 @@ char* decode(unsigned char text[], node *root) {
     return decoded;
 }
 
+void compress(unsigned char str[]) {
+    FILE *f = fopen("compressed.wg", "wb");
+    int i = 0;
+    int j = 7; // bit mais a esquerda
+    unsigned char mask, byte = 0; // 00000000
+
+    if (f) {
+        while (str[i] != '\0') {
+            mask = 1;
+            if (str[i] == '1') {
+                mask = mask << j;
+                byte = byte | mask;
+            }
+            j--;
+
+            if (j < 0) { // Já chegou ao final do byte
+                fwrite(&byte, sizeof(unsigned char), 1, f);
+                byte = 0;
+                j = 7;
+            }
+
+            i++;
+        }
+        if (j != 7) { // Existe um byte em formação
+            fwrite(&byte, sizeof(unsigned char), 1, f);
+
+        }
+        fclose(f);
+    } else {
+        printf("\n\nError to create file at compress.\n");
+    }
+}
+
+unsigned int is_bit_one(unsigned char byte, int i) {
+    unsigned char mask = (1 << i);
+    return byte & mask;
+}
+
+void decompress(node *root) {
+    FILE *f = fopen("compressed.wg", "rb");
+    node *aux = root;
+    unsigned char byte;
+    int i;
+    
+    if (f) {
+        while (fread(&byte, sizeof(unsigned char), 1, f)) {
+            for (i = 7; i >= 0; i--) {
+                if (is_bit_one(byte, i)) {
+                    aux = aux->right;
+                } else {
+                    aux = aux->left;
+                }
+
+                if (aux->left == NULL && aux->right == NULL) {
+                    printf("%c", aux->item);
+                    aux = root;
+                }
+            }
+        }
+        fclose(f);
+    } else {
+        printf("\n\nError to open file at decompress.\n");
+    }
+}
+
+int find_file_size() {
+    FILE *f = fopen("test.txt", "r");
+    int size = 0;
+    
+    if (f) {
+        while(fgetc(f) != -1) {
+            size++;
+        }
+        fclose(f);
+    } else {
+        printf("\n\nERROR to open file at find_file_size.\n");
+    }
+    return size;
+}
+
+void read_text(unsigned char *text) {
+    FILE *f = fopen("test.txt", "r");
+    char letter;
+    int i = 0;
+    
+    if (f) {
+        while (!feof(f)) {
+            letter = fgetc(f);
+            if (letter != -1) {
+                text[i] = letter;
+                i++;
+            }
+        }
+        fclose(f);
+    } else {
+        printf("\n\nERROR to open file at read_text.\n");
+    }
+}
+
 int main() {
-    unsigned char text[] = "Vamos aprender programação";
+    //unsigned char text[] = "Vamos aprender programação";
+    unsigned char *text;
     unsigned int frequency_table[SIZE_ASCII];
     list list;
     node *tree;
     int columns;
+    int size;
     char **dictionary;
     char *encoded, *decoded;
 
-    setlocale(LC_ALL, "Portuguese");
+    //setlocale(LC_ALL, "Portuguese");
+
+    size = find_file_size();
+    printf("\nSize: %d\n", size);
+
+    text = calloc(size + 2, sizeof(unsigned char));
+    read_text(text);
 
     build_table_with_zero(frequency_table);
     build_frequency_table(text, frequency_table);
-    print_frequency_table(frequency_table);
+    //print_frequency_table(frequency_table);
 
     create_list(&list);
     building_list(frequency_table, &list);
-    print_list(&list);
+    //print_list(&list);
 
     tree = build_tree(&list);
     printf("\n\tÁrvore de huffman\n");
-    print_tree(tree, 0);
+    //print_tree(tree, 0);
 
     columns = trie_height(tree) + 1;
     dictionary = allocate_dictionary(columns);
     create_dictionary(dictionary, tree, "", columns);
-    print_dictionary(dictionary);
+    //print_dictionary(dictionary);
 
     encoded = encode(dictionary, text);
-    printf("\n\tTexto codificado: %s\n", encoded);
+    //printf("\n\tTexto codificado: %s\n", encoded);
 
     decoded = decode(encoded, tree);
-    printf("\n\n\tTexto decodificado: %s\n", decoded);
+    //printf("\n\n\tTexto decodificado: %s\n", decoded);
+
+    compress(encoded);
+
+    printf("\nARQUIVO DESCOMPACTADO\n");
+    decompress(tree);
+    printf("\n\n");
+
+    free(text);
+    free(encoded);
+    free(decoded);
     
     return 0;
 }
