@@ -78,7 +78,7 @@ node* merge(node *pq) {
     return pq;
 }
 
-node* huffman_tree(node *pq) {
+node* huff_tree(node *pq) {
     if (pq->next == NULL) { // Se a fila tiver apenas um nó
         node* new_node = (node*) malloc(sizeof(node));
         new_node->item = &character;
