@@ -6,7 +6,7 @@ typedef struct node {
     struct node *next;
     struct node *left;
     struct node *right;
-}
+}node;
 
 node* create_empty_queue() {
     return NULL;
@@ -112,8 +112,8 @@ void print_tree_with_node_attributes(node *pq) {
     printf("\n");
     if (!is_empty(pq)) { // Não estiver vazio
         printf("Node:\n\taddress[%p]\n\titem[%c]\n\tfrequency[%d]\n\tnext[%p]\n\tleft[%p]\n\tright[%p]\n\n", pq,*(unsigned char*) pq->item, pq->frequency, pq->next, pq->left, pq->right);
-        print_tree_with_node_atributes (pq->left);
-        print_tree_with_node_atributes (pq->right);
+        print_tree_with_node_attributes(pq->left);
+        print_tree_with_node_attributes(pq->right);
     }
 }
 

@@ -1,4 +1,4 @@
-node* add_node(voide *value, node *left, node *right) {
+node* add_node(void *value, node *left, node *right) {
     node *new_node = (node*) malloc(sizeof(node));
     unsigned char *new_node_unsigned_char = (unsigned char*) malloc(sizeof(unsigned char));
     *new_node_unsigned_char = *(unsigned char*) value;
@@ -8,7 +8,7 @@ node* add_node(voide *value, node *left, node *right) {
     return new_node;
 }
 
-node* build_tree(char *str_tree, int *pos) { Reconstroe a árvore de Huffman a partir da string da árvore
+node* build_tree(char *str_tree, int *pos) { // Reconstroe a árvore de Huffman a partir da string da árvore
     if (str_tree[*pos] == '*') {
         *pos = *pos + 1;
         node *left = build_tree(str_tree, pos);
@@ -56,12 +56,12 @@ void decompress(char *source_file_name, char* destination_file_name) {
     printf("\n\tDecompressing ...\n");
 
     fseek(compressed_file, 0, SEEK_END); // Ajusta o indicador para o fim do arquivo
-    total_bytes = ftell(compressed_file);
+    total_bytes = ftell(compressed_file); // Retorna o valor total de bytes do arquivo
     rewind(compressed_file); // Volta o indicador para o início do arquivo
     buffer = (unsigned char*) malloc(sizeof(char) * total_bytes); // Aloca memória com o valor do arquivo
     fread(buffer, 1, total_bytes, compressed_file); // Copia todos os caracteres de "file" para o "buffer"
 
-    for (i = 0, i < 17, i++) {
+    for (i = 0; i < 17; i++) {
         header[i] = '\0';
     }
 
@@ -83,7 +83,7 @@ void decompress(char *source_file_name, char* destination_file_name) {
     char str_tree[size_tree + 1]; // O +1 é por conta do '\0' (final de string)
 
     // Pegando cada pré-ordem byte/character. i = 2 por conta dos 2 bytes iniciais que já foram lidos
-    for (i = 2; pos = 0; i <= size_tree + 1; i++; pos++) {
+    for (i = 2, pos = 0; i <= size_tree + 1; i++, pos++) {
         fseek(compressed_file, i, SEEK_SET);
         str_tree[pos] = getc(compressed_file);
     }
@@ -139,5 +139,4 @@ void decompress(char *source_file_name, char* destination_file_name) {
 	fclose(new_file);
 
 	printf("\n\tSuccess!\n\n");
-}
 }

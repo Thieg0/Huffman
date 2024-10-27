@@ -146,13 +146,13 @@ void compress(char *source_file_name, char *destination_file_name) {
     unsigned char bit_string[SIZE_ASCII];
     pass_through_edges_and_add_characters(hasht, huffman_tree, bit_string, -1, '0'); // Atualiza o "bit_string" na tabela de hash com o novo mapeamento de bytes.
 
-    fprintf(compressed_file, '00'); // Reserva os primeiros 16 bits;
+    fprintf(compressed_file, "00"); // Reserva os primeiros 16 bits;
 
     unsigned int tree_size = size_huff(huffman_tree) + escape(huffman_tree, 0); // Total de nós + total de folhas de escape (representadas por * ou \*).
     fprint_tree_bytes_header(compressed_file, huffman_tree); // Escreve a representação pré-ordem da árvore no arquivo.
 
     char *tree_header_size = (char*) malloc(13 * sizeof(char));
-    int bin(tree_header_size, tree_size, 13);
+    int_bin(tree_header_size, tree_size, 13);
 
     unsigned int trash = write_compressed_file(source_file, compressed_file, hasht);
 
