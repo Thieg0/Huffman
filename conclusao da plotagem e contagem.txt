@@ -1,0 +1,41 @@
+Lista: Costuma ser a mais rápida para a adição de elementos, já que ela apenas adiciona elementos ao final da lista (ou no início, dependendo da implementação). O tempo de inserção é constante, 
+𝑂
+(
+1
+)
+O(1).
+
+Árvore Desbalanceada: É mais lenta que a lista na inserção de elementos, especialmente quando a árvore se torna desbalanceada. O tempo médio para inserção é 
+𝑂
+(
+log
+⁡
+𝑛
+)
+O(logn), mas no pior caso (quando a árvore é uma lista ligada), pode ser 
+𝑂
+(
+𝑛
+)
+O(n).
+
+Árvore AVL: É geralmente mais lenta que a lista e a árvore desbalanceada para inserção, pois precisa manter o balanceamento da árvore após cada inserção, resultando em um tempo de inserção de 
+𝑂
+(
+log
+⁡
+𝑛
+)
+O(logn). No entanto, as árvores AVL garantem que as operações de busca, inserção e remoção sejam sempre 
+𝑂
+(
+log
+⁡
+𝑛
+)
+O(logn).
+
+Resumo Geral:
+Mais Rápida: Lista
+Intermediária: Árvore Desbalanceada
+Mais Lenta: Árvore AVL
