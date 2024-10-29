@@ -270,56 +270,68 @@ void liberar_arvore_avl_externa(ArvoreAVL* arvore) {
 }
 
 // Função principal
-#define NUM_ELEMENTOS 10000 // Define o número de elementos a serem inseridos
+#define NUM_ELEMENTOS 50 // Define o número de elementos a serem inseridos
 
 int main() {
-    srand(time(NULL)); // Semente para gerar números aleatórios
-
-    // Criando as estruturas
     Lista* lista = criar_lista();
     ArvoreDesbalanceada* arvore_desbalanceada = criar_arvore();
     ArvoreAVL* arvore_avl = criar_arvore_avl();
 
-    // Medindo o tempo para a lista
-    clock_t inicio = clock();
-    for (int i = 0; i < NUM_ELEMENTOS; i++) {
-        int valor = rand() % 1000; // Gera um número aleatório
-        adicionar_lista(lista, valor); // Adiciona à lista
-    }
-    int contagem_lista = contar_lista(lista); // Conta os elementos na lista
-    clock_t fim = clock();
-    double tempo_lista = (double)(fim - inicio) / CLOCKS_PER_SEC; // Calcula o tempo gasto
+    clock_t inicio, fim;
+    double tempo_lista, tempo_arvore_desbalanceada, tempo_arvore_avl;
 
-    // Medindo o tempo para a árvore desbalanceada
+    // Adicionando elementos à lista e medindo o tempo
     inicio = clock();
-    for (int i = 0; i < NUM_ELEMENTOS; i++) {
-        int valor = rand() % 1000; // Gera um número aleatório
-        adicionar_arvore(arvore_desbalanceada, valor); // Adiciona à árvore desbalanceada
+    for (int i = 1; i <= NUM_ELEMENTOS; i++) {
+        adicionar_lista(lista, i);
     }
-    int contagem_arvore_desbalanceada = contar_arvore_externa(arvore_desbalanceada); // Conta os elementos
     fim = clock();
-    double tempo_arvore_desbalanceada = (double)(fim - inicio) / CLOCKS_PER_SEC; // Calcula o tempo gasto
+    tempo_lista = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
-    // Medindo o tempo para a árvore AVL
+    // Contando elementos na lista
     inicio = clock();
-    for (int i = 0; i < NUM_ELEMENTOS; i++) {
-        int valor = rand() % 1000; // Gera um número aleatório
-        adicionar_arvore_avl(arvore_avl, valor); // Adiciona à árvore AVL
-    }
-    int contagem_arvore_avl = contar_arvore_avl_externa(arvore_avl); // Conta os elementos
+    int contagem_lista = contar_lista(lista);
     fim = clock();
-    double tempo_arvore_avl = (double)(fim - inicio) / CLOCKS_PER_SEC; // Calcula o tempo gasto
+    tempo_lista += ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    // Adicionando elementos à árvore desbalanceada e medindo o tempo
+    inicio = clock();
+    for (int i = 1; i <= NUM_ELEMENTOS; i++) {
+        adicionar_arvore(arvore_desbalanceada, i);
+    }
+    fim = clock();
+    tempo_arvore_desbalanceada = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    // Contando elementos na árvore desbalanceada
+    inicio = clock();
+    int contagem_arvore_desbalanceada = contar_arvore_externa(arvore_desbalanceada);
+    fim = clock();
+    tempo_arvore_desbalanceada += ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    // Adicionando elementos à árvore AVL e medindo o tempo
+    inicio = clock();
+    for (int i = 1; i <= NUM_ELEMENTOS; i++) {
+        adicionar_arvore_avl(arvore_avl, i);
+    }
+    fim = clock();
+    tempo_arvore_avl = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    // Contando elementos na árvore AVL
+    inicio = clock();
+    int contagem_arvore_avl = contar_arvore_avl_externa(arvore_avl);
+    fim = clock();
+    tempo_arvore_avl += ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
     // Exibindo resultados
     printf("Resultados:\n");
-    printf("Lista: %d elementos, tempo: %.6f segundos\n", contagem_lista, tempo_lista);
-    printf("Árvore Desbalanceada: %d elementos, tempo: %.6f segundos\n", contagem_arvore_desbalanceada, tempo_arvore_desbalanceada);
-    printf("Árvore AVL: %d elementos, tempo: %.6f segundos\n", contagem_arvore_avl, tempo_arvore_avl);
+    printf("Lista: %d elementos (Tempo: %.6f segundos)\n", contagem_lista, tempo_lista);
+    printf("Árvore Desbalanceada: %d elementos (Tempo: %.6f segundos)\n", contagem_arvore_desbalanceada, tempo_arvore_desbalanceada);
+    printf("Árvore AVL: %d elementos (Tempo: %.6f segundos)\n", contagem_arvore_avl, tempo_arvore_avl);
 
     // Liberar memória
     liberar_lista(lista);
     liberar_arvore_externa(arvore_desbalanceada);
     liberar_arvore_avl_externa(arvore_avl);
 
-    return 0; // Indica que o programa terminou com sucesso
+    return 0;
 }
