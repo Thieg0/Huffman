@@ -5,6 +5,8 @@
 
 ## Objetivos
 <p>Aplicar os conhecimentos adquiridos na matéria na criação de um algoritmo de Huffman</p>
+<p>Cotagem e Plotagem: Lista vs Árvore desbalenceada vs AVL</p>
+<p>Seminário: Trie</p>
 
 ## 🚀 Tecnologias
 <div>
@@ -13,6 +15,6 @@
 
 # Time
 
-| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/143961172?s=400&u=b880926ace5a5572b614c556be66a89fb0264897&v=4" width=115><br><sub>Thiego Macena</sub>](https://github.com/Thieg0) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/163771331?v=4" width=115><br><sub>Athisson Alberto</sub>](https://github.com/athissonlm) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/89602571?v=4" width=115><br><sub>Bruno Weverton</sub>](https://github.com/BrunoWevertoon) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/130822438?s=64&v=4" width=115><br><sub>Pedro Henrique</sub>](https://github.com/Phenriquess2) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/117690162?v=4" width=115><br><sub>Pedro Resende</sub>](https://github.com/Pedrohsre) |
-| :---: | :---: | :---: | :---: | :---: |
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/143961172?s=400&u=b880926ace5a5572b614c556be66a89fb0264897&v=4" width=115><br><sub>Thiego Macena</sub>](https://github.com/Thieg0) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/163771331?v=4" width=115><br><sub>Athisson Alberto</sub>](https://github.com/athissonlm) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/89602571?v=4" width=115><br><sub>Bruno Weverton</sub>](https://github.com/BrunoWevertoon) |
+| :---: | :---: | :---: | 
 
